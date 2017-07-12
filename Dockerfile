@@ -14,14 +14,20 @@ RUN echo 'root:centreon' | chpasswd
 RUN sed -i 's/^#PermitRootLogin/PermitRootLogin/g' /etc/ssh/sshd_config
 RUN /etc/init.d/sshd start && /etc/init.d/sshd stop
 
+# Database info
+ENV MYSQL_HOST 127.0.0.1
+ENV MYSQL_USER centreon
+ENV MYSQL_PASSWORD centreon
+ENV MYSQL_DB centreon
+
 # Install centreon
-RUN yum -y install MariaDB-server && /etc/init.d/mysql start && yum -y install centreon centreon-base-config-centreon-engine centreon-installed centreon-clapi && /etc/init.d/mysql stop
+RUN yum -y install centreon centreon-base-config-centreon-engine centreon-installed centreon-clapi
 
 # Install Widgets
 RUN yum -y install centreon-widget-graph-monitoring centreon-widget-host-monitoring centreon-widget-service-monitoring centreon-widget-hostgroup-monitoring centreon-widget-servicegroup-monitoring
 # Fix pass in db
 ADD scripts/cbmod.sql /tmp/cbmod.sql
-RUN /etc/init.d/mysql start && sleep 5 && mysql centreon < /tmp/cbmod.sql && /usr/bin/centreon -u admin -p centreon -a POLLERGENERATE -v 1 && /usr/bin/centreon -u admin -p centreon -a CFGMOVE -v 1 && /etc/init.d/mysql stop
+RUN mysql -h ${MYSQL_HOST} -u ${MYSQL_USER} -p ${MYSQL_PASSWORD} ${MYSQL_DB} < /tmp/cbmod.sql && /usr/bin/centreon -u admin -p centreon -a POLLERGENERATE -v 1 && /usr/bin/centreon -u admin -p centreon -a CFGMOVE -v 1
 
 # Set rights for setuid
 RUN chown root:centreon-engine /usr/lib/nagios/plugins/check_icmp
