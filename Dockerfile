@@ -38,4 +38,4 @@ ADD scripts/supervisord.conf /etc/supervisord.conf
 # Expose port SSH and HTTP for the service
 EXPOSE 22 80
 
-CMD ['/usr/bin/supervisord', '--configuration=/etc/supervisord.conf']
+CMD ["/usr/bin/supervisord","--configuration=/etc/supervisord.conf"]
