@@ -27,7 +27,7 @@ RUN yum -y install centreon centreon-base-config-centreon-engine centreon-instal
 RUN yum -y install centreon-widget-graph-monitoring centreon-widget-host-monitoring centreon-widget-service-monitoring centreon-widget-hostgroup-monitoring centreon-widget-servicegroup-monitoring
 # Fix pass in db
 ADD scripts/cbmod.sql /tmp/cbmod.sql
-RUN mysql -h ${MYSQL_HOST} -u ${MYSQL_USER} -p ${MYSQL_PASSWORD} ${MYSQL_DB} < /tmp/cbmod.sql && /usr/bin/centreon -u admin -p centreon -a POLLERGENERATE -v 1 && /usr/bin/centreon -u admin -p centreon -a CFGMOVE -v 1
+RUN mysql -h $MYSQL_HOST -u $MYSQL_USER -p $MYSQL_PASSWORD $MYSQL_DB < /tmp/cbmod.sql && /usr/bin/centreon -u admin -p centreon -a POLLERGENERATE -v 1 && /usr/bin/centreon -u admin -p centreon -a CFGMOVE -v 1
 
 # Set rights for setuid
 RUN chown root:centreon-engine /usr/lib/nagios/plugins/check_icmp
