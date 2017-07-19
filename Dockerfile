@@ -29,9 +29,6 @@ RUN easy_install supervisor
 # Todo better split file
 ADD scripts/supervisord.conf /etc/supervisord.conf
 
-# Give timezone its own ini file for cleanliness and ease to update.
-ADD timezone.ini /etc/php.d/
-
 # Expose 80 for the httpd service.
 EXPOSE 80
 
