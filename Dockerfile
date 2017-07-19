@@ -5,7 +5,7 @@ MAINTAINER jmathis <julien.mathis@gmail.com>
 RUN yum -y update
 
 # Install Centreon Repository
-RUN yum -y install http://yum.centreon.com/standard/3.3/stable/noarch/RPMS/ces-release-3.0-1.noarch.rpm
+RUN yum -y install http://yum.centreon.com/standard/3.0/stable/noarch/RPMS/ces-release-3.0-1.noarch.rpm
 
 # Install ssh
 RUN yum -y install openssh-server openssh-client
