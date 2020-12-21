@@ -1,11 +1,11 @@
-FROM centos:centos6
+FROM centos
 MAINTAINER pmietlicki <pmietlicki@gmail.com>
 
 # Update CentOS
 RUN yum -y update
 
 # Install Centreon Repository
-RUN yum -y install http://yum.centreon.com/standard/3.3/stable/noarch/RPMS/ces-release-3.0-1.noarch.rpm
+RUN yum -y install https://yum.centreon.com/standard/3/stable/noarch/RPMS/ces-release-3.0-1.noarch.rpm
 
 # Install centreon
 RUN yum -y install MariaDB-server && /etc/init.d/mysql start && yum -y install centreon centreon-base-config-centreon-engine centreon-installed centreon-clapi && /etc/init.d/mysql stop
