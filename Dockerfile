@@ -9,7 +9,9 @@ RUN yum -y install https://yum.centreon.com/standard/3/stable/noarch/RPMS/ces-re
 
 # Install centreon
 RUN yum -y install mariadb-server && mysql_install_db
-RUN /usr/bin/mysqld_safe --basedir=/var/lib/mysql
+RUN yum -y remove mariadb-gssapi-server
+RUN yum -y remove mariadb-gssapi-client
+RUN /usr/bin/mysqld_safe -u mysql --datadir=/var/lib/mysql
 RUN yum -y install centreon centreon-base-config-centreon-engine centreon-installed centreon-clapi 
 RUN /usr/bin/mysqladmin shutdown
 
