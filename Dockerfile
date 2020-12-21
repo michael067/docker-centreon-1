@@ -5,6 +5,7 @@ MAINTAINER pmietlicki <pmietlicki@gmail.com>
 RUN yum -y update
 
 # Install Centreon Repository
+RUN yum install -y centos-release-scl
 RUN yum install -y http://yum.centreon.com/standard/20.10/el7/stable/noarch/RPMS/centreon-release-20.10-2.el7.centos.noarch.rpm
 
 # Install centreon
