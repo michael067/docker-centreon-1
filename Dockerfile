@@ -8,7 +8,7 @@ RUN yum -y update
 RUN yum -y install https://yum.centreon.com/standard/3/stable/noarch/RPMS/ces-release-3.0-1.noarch.rpm
 
 # Install centreon
-RUN yum -y install MariaDB-server && /etc/init.d/mysql start && yum -y install centreon centreon-base-config-centreon-engine centreon-installed centreon-clapi && /etc/init.d/mysql stop
+RUN yum -y install mariadb-server && /etc/init.d/mysql start && yum -y install centreon centreon-base-config-centreon-engine centreon-installed centreon-clapi && /etc/init.d/mysql stop
 
 # Install Widgets
 RUN yum -y install centreon-widget-graph-monitoring centreon-widget-host-monitoring centreon-widget-service-monitoring centreon-widget-hostgroup-monitoring centreon-widget-servicegroup-monitoring
