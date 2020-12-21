@@ -23,8 +23,8 @@ RUN chmod -w /usr/lib/nagios/plugins/check_icmp
 RUN chmod u+s /usr/lib/nagios/plugins/check_icmp
 
 # Install and configure supervisor
-RUN yum -y install python-setuptools
-RUN easy_install supervisor
+RUN yum -y install python3-setuptools
+RUN easy_install-3.6 supervisor
 
 # Todo better split file
 ADD scripts/supervisord.conf /etc/supervisord.conf
