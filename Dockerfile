@@ -5,9 +5,7 @@ MAINTAINER pmietlicki <pmietlicki@gmail.com>
 RUN yum -y update
 
 # Install Centreon Repository
-RUN yum -y install https://yum.centreon.com/standard/3/stable/noarch/RPMS/ces-release-3.0-1.noarch.rpm
-
-RUN yum -y install httpd php
+RUN yum install -y http://yum.centreon.com/standard/20.10/el7/stable/noarch/RPMS/centreon-release-20.10-2.el7.centos.noarch.rpm
 
 # Install centreon
 RUN yum -y install mariadb-server && mysql_install_db
