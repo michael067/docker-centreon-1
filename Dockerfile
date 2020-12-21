@@ -1,4 +1,4 @@
-FROM pmietlicki/centos
+FROM pmietlicki/centos-systemd
 MAINTAINER pmietlicki <pmietlicki@gmail.com>
 
 # Update CentOS
