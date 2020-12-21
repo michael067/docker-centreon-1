@@ -9,12 +9,7 @@ RUN yum install -y centos-release-scl
 RUN yum install -y http://yum.centreon.com/standard/20.10/el7/stable/noarch/RPMS/centreon-release-20.10-2.el7.centos.noarch.rpm
 
 # Install centreon
-RUN yum -y install mariadb-server && mysql_install_db
-RUN yum -y remove mariadb-gssapi-server
-RUN yum -y remove mariadb-gssapi-client
-RUN /usr/bin/mysqld_safe -u mysql --datadir=/var/lib/mysql
-RUN yum -y install centreon centreon-base-config-centreon-engine centreon-installed centreon-clapi 
-RUN /usr/bin/mysqladmin shutdown
+RUN yum -y install centreon centreon-database centreon-base-config-centreon-engine centreon-installed centreon-clapi 
 
 # Install Widgets
 RUN yum -y install centreon-widget-graph-monitoring centreon-widget-host-monitoring centreon-widget-service-monitoring centreon-widget-hostgroup-monitoring centreon-widget-servicegroup-monitoring
