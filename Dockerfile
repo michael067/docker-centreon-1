@@ -16,12 +16,12 @@ RUN yum -y install centreon-widget-graph-monitoring centreon-widget-host-monitor
 
 # Fix pass in db
 #ADD scripts/cbmod.sql /tmp/cbmod.sql
-#RUN /usr/bin/mysqld_safe --datadir=/var/lib/mysql && sleep 5 
+#RUN /usr/bin/mysqld_safe --datadir=/var/lib/mysql &
 #RUN mysql centreon < /tmp/cbmod.sql && /usr/bin/centreon -u admin -p centreon -a POLLERGENERATE -v 1 && /usr/bin/centreon -u admin -p centreon -a CFGMOVE -v 1 
 #RUN /usr/bin/mysqladmin shutdown
 
 # Set rights for setuid
-RUN chown root:centreon-engine /usr/lib/nagios/plugins/check_icmp
+RUN chown root:centreon-engine /usr/lib64/nagios/plugins/check_icmp
 RUN chmod -w /usr/lib/nagios/plugins/check_icmp
 RUN chmod u+s /usr/lib/nagios/plugins/check_icmp
 
