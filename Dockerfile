@@ -22,8 +22,8 @@ RUN yum -y install centreon-widget-graph-monitoring centreon-widget-host-monitor
 
 # Set rights for setuid
 RUN chown root:centreon-engine /usr/lib64/nagios/plugins/check_icmp
-RUN chmod -w /usr/lib/nagios/plugins/check_icmp
-RUN chmod u+s /usr/lib/nagios/plugins/check_icmp
+RUN chmod -w /usr/lib64/nagios/plugins/check_icmp
+RUN chmod u+s /usr/lib64/nagios/plugins/check_icmp
 
 # Install and configure supervisor
 RUN yum -y install python3-setuptools
