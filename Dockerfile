@@ -1,42 +1,25 @@
-FROM centos:centos7
-MAINTAINER pmietlicki <pmietlicki@gmail.com>
+FROM centos:centos8
+MAINTAINER michael <michael067@orange.fr>
 
 # Update CentOS
-RUN yum -y update
+RUN dnf update -y
 
 # Install Centreon Repository
-RUN yum install -y centos-release-scl
-RUN yum install -y http://yum.centreon.com/standard/20.10/el7/stable/noarch/RPMS/centreon-release-20.10-2.el7.centos.noarch.rpm
+RUN dnf install -y https://yum.centreon.com/standard/21.10/el8/stable/noarch/RPMS/centreon-release-21.10-2.el8.noarch.rpm
+RUN dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+RUN dnf config-manager --set-enabled 'powertools'
+RUN dnf update -y
 
 # Install centreon
-RUN yum -y install centreon centreon-database centreon-base-config-centreon-engine centreon-installed centreon-clapi 
+RUN dnf install -y centreon centreon-database
 
 # Install Widgets
-RUN yum -y install centreon-widget-graph-monitoring centreon-widget-host-monitoring centreon-widget-service-monitoring centreon-widget-hostgroup-monitoring centreon-widget-servicegroup-monitoring
+RUN dnf install -y centreon-widget\*
 
-# Fix pass in db
-#ADD scripts/cbmod.sql /tmp/cbmod.sql
-#RUN /usr/bin/mysqld_safe --datadir=/var/lib/mysql &
-#RUN mysql centreon < /tmp/cbmod.sql && /usr/bin/centreon -u admin -p centreon -a POLLERGENERATE -v 1 && /usr/bin/centreon -u admin -p centreon -a CFGMOVE -v 1 
-#RUN /usr/bin/mysqladmin shutdown
-
-# Set rights for setuid
-RUN chown root:centreon-engine /usr/lib64/nagios/plugins/check_icmp
-RUN chmod -w /usr/lib64/nagios/plugins/check_icmp
-RUN chmod u+s /usr/lib64/nagios/plugins/check_icmp
-
-# Install and configure supervisor
-RUN yum -y install python3-setuptools
-RUN easy_install-3.6 supervisor
-
-# Todo better split file
-ADD scripts/supervisord.conf /etc/supervisord.conf
-
-# Expose 80 for the httpd service.
-EXPOSE 80
-
-# Make them easier to snapshot and backup.
-VOLUME ["/usr/share/centreon/", "/usr/lib/nagios/plugins/", "/var/lib/mysql"]
-
-# Must use double quotes for json formatting.
-CMD ["/usr/bin/supervisord", "--configuration=/etc/supervisord.conf"]
+RUN systemctl daemon-reload
+RUN systemctl restart mariadb
+RUN hostnamectl set-hostname centreon
+RUN echo "date.timezone = Europe/Paris" >> /etc/php.d/50-centreon.ini
+RUN systemctl restart php-fpm
+RUN systemctl enable php-fpm httpd mariadb centreon cbd centengine gorgoned snmptrapd centreontrapd snmpd
+RUN systemctl start httpd
